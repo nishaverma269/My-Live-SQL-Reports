@@ -11,3 +11,5 @@ Pictures of the report screen are attached to showcase my work.
 Brief Description:
 
 Report_1: Display Employees Emergency Contact Information.
+
+Report_2: Display Employees Attendance Rate by Department.
