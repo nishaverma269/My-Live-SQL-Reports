@@ -13,3 +13,6 @@ Brief Description:
 Report_1: Display Employees Emergency Contact Information.
 
 Report_2: Display Employees Attendance Rate by Department.
+
+Report_3: Display the Attendance Rate using Visualization.
+
