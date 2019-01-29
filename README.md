@@ -16,3 +16,5 @@ Report_2: Display Employees Attendance Rate by Department.
 
 Report_3: Display the Attendance Rate using Visualization.
 
+Report_4: Display Employees Attendance Rate by Attendance Points.
+
