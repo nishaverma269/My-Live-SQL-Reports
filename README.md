@@ -1,6 +1,6 @@
 # SQL-Reports
 
-This is a whole package of SQL Reports created using combination of SQL Development Environment and VisionPlex Wizard of Cloud Plex ERP Solution. 
+This is a whole package of SQL Reports created using combination of SQL Development Environment, VisionPlex Wizard, and IntelliPlex of Cloud Plex ERP Solution. 
 
 Data used in the reports are based on the real time Kwangjin America Inc. Database.
 
