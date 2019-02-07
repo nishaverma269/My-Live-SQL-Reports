@@ -20,3 +20,5 @@ Report_4: Display Employees Attendance Rate by Attendance Points.
 
 Report_5: Display the Attendance Points Rate using Visualization.
 
+Report_6: Display Customer Shipping Summary along with Customer Shipping details on a separate dialog window.
+
