@@ -22,3 +22,9 @@ Report_5: Display the Attendance Points Rate using Visualization.
 
 Report_6: Display Customer Shipping Summary along with Customer Shipping details on a separate dialog window.
 
+Report_7: Display two different LPA Grpahs for easy visualization.
+
+Report_8: Display Quality Cost Graph for easy visualization.
+
+
+
