@@ -24,7 +24,9 @@ Report_6: Display Customer Shipping Summary along with Customer Shipping details
 
 Report_7: Display two different LPA Grpahs for easy visualization.
 
-Report_8: Display Quality Cost Graph for easy visualization.
+Report_8: Display Quality Cost Graph for easy visualization in Vision Plex.
+
+Report_9: Display Quality Cost Graph with table for easy visualization and automated email delivery in IntelliPlex.
 
 
 
