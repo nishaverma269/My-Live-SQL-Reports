@@ -28,5 +28,5 @@ Report_8: Display Quality Cost Graph for easy visualization in Vision Plex.
 
 Report_9: Display Quality Cost Graph with table for easy visualization and automated email delivery in IntelliPlex.
 
-
+Report_10: Display Quality Cost Achievement Rate with table for easy visualization and automated email delivery in IntelliPlex.
 
