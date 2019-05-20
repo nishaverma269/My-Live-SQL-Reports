@@ -1,5 +1,5 @@
 ----------- HR New Hires and Terminations Summary Report  -------------
--------------- Created by Nisha Verma on 03/06/2019 -------------------
+-------------- Created by Nisha Verma on 05/06/2019 -------------------
 -----------------------------------------------------------------------
 
 ------ CREATE NEW HIRES TABLE ------
@@ -167,4 +167,4 @@ Group By  Q1.Company,
           Q1.ReportsTo,
           Q1.Worker,
           Q1.EmployeeStatus
-Order By Q1.Employee
+Order By Q1.Company, Q1.PayType, Q1.Employee#
