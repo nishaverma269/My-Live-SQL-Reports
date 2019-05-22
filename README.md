@@ -30,5 +30,7 @@ Report_9: Display Quality Cost Graph with table for easy visualization and autom
 
 Report_10: Display Quality Cost Achievement Rate with table for easy visualization and automated email delivery in IntelliPlex.
 
-Report_11: Display New Hires and Terminations Informations.
+Report_11: Display New Hires and Terminations information.
+
+Report_12: Display Termination Code Summary information.
 
