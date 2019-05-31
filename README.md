@@ -34,3 +34,4 @@ Report_11: Display New Hires and Terminations information.
 
 Report_12: Display Termination Code Summary information.
 
+Report_12: Display Employee Turnover Rate.
