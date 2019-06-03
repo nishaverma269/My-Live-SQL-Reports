@@ -1,27 +1,31 @@
 -------------------------------------------------------------
 ------------ Display Employee Turnover Rate -----------------
---------- Created by Nisha Verma on 05/31/2019 --------------
+--------- Created by Nisha Verma on 05/28/2019 --------------
 -------------------------------------------------------------
 
 ------ CREATE TABLE ------
 Create Table #Summary
 (
-    PayType         VARCHAR(max),
-    PreviousMonth   INT,
-    Hire            INT,
-    Quit            INT,
-    Resign          INT
+    EmployeeType             VARCHAR(max),
+    PreviousMonth       INT,
+    Hire                INT,
+    Quit                INT,
+    Resign              INT,
+    ReleasedAttendance  INT,
+    ReleasedPerformance INT
 );
 
 INSERT #Summary
 (
-    PayType,
+    EmployeeType,
     PreviousMonth,
     Hire,
     Quit,
-    Resign
+    Resign,
+    ReleasedAttendance,
+    ReleasedPerformance
 )
-Select 'KJA Hourly' as PayType,
+Select 'KJA Hourly' as EmployeeType,
  ( Select IsNull(Count(*), 0) as PreviousMonth From (
   
   Select A.Customer_Employee_No as Employee#,
@@ -100,12 +104,56 @@ Select 'KJA Hourly' as PayType,
     AND A.Contract_Worker != 1
   
   ) as Q1
-  Group By Q1.TerminationCode ) as Resign
+  Group By Q1.TerminationCode ) as Resign,
+  
+  ( Select  IsNull(Count(*), 0) as ReleaseAttendance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Attendance')
+    AND A.Pay_Type = 'Hourly'
+    AND A.Contract_Worker != 1
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedAttendance,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedPerformance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Performance')
+    AND A.Pay_Type = 'Hourly'
+    AND A.Contract_Worker != 1
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedPerformance
 
 ------- Combining Queries ------------
 Union All
 
-Select 'Temp Hourly' as PayType,
+Select 'Temp Hourly' as EmployeeType,
  ( Select IsNull(Count(*), 0) as PreviousMonth From (
   
   Select A.Customer_Employee_No as Employee#,
@@ -184,12 +232,56 @@ Select 'Temp Hourly' as PayType,
     AND A.Contract_Worker = 1
   
   ) as Q1
-  Group By Q1.TerminationCode ) as Resign
+  Group By Q1.TerminationCode ) as Resign,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedAttendance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Attendance')
+    AND A.Pay_Type = 'Hourly'
+    AND A.Contract_Worker = 1
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedAttendance,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedPerformance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Performance')
+    AND A.Pay_Type = 'Hourly'
+    AND A.Contract_Worker = 1
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedPerformance
   
 ------- Combining Queries ------------
 Union All
 
-Select 'Hourly Total' as PayType,
+Select 'Hourly Total' as EmployeeType,
  ( Select IsNull(Count(*), 0) as PreviousMonth From (
   
   Select A.Customer_Employee_No as Employee#,
@@ -266,12 +358,56 @@ Select 'Hourly Total' as PayType,
     AND A.Pay_Type = 'Hourly'
   
   ) as Q1
-  Group By Q1.TerminationCode ) as Resign
+  Group By Q1.TerminationCode ) as Resign,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedAttendance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+       
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Attendance')
+    AND A.Pay_Type = 'Hourly'
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedAttendance,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedPerformance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+       
+  Where Format(B.Termination_Date, 'yyyyMM') = @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Performance')
+    AND A.Pay_Type = 'Hourly'
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedPerformance
   
 ------- Combining Queries ------------
 Union All
 
-Select 'Salaried' as PayType,
+Select 'Salaried' as EmployeeType,
  ( Select IsNull(Count(*), 0) as PreviousMonth From (
   
   Select A.Customer_Employee_No as Employee#,
@@ -348,13 +484,57 @@ Select 'Salaried' as PayType,
     AND A.Pay_Type = 'Salary'
   
   ) as Q1
-  Group By Q1.TerminationCode ) as Resign
+  Group By Q1.TerminationCode ) as Resign,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedAttendance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+       
+  Where Format(B.Termination_Date, 'yyyyMM') =  @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Attendance')
+    AND A.Pay_Type = 'Salary'
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedAttendance,
+  
+  ( Select  IsNull(Count(*), 0) as ReleasedPerformance From (
+  
+  Select  A.Pay_Type,
+          Concat(D.First_Name, ' ', D.Middle_Name, ' ',  D.Last_Name) as Employee,
+          C.Termination_Code as TerminationCode 
+  From 
+       Personnel_v_Employee as A
+  Left Outer Join Personnel_v_Termination as B
+       On A.Plexus_User_No = B.PUN
+  Left Outer Join Personnel_v_Termination_Code as C
+       On B.Termination_Code_Key = C.Termination_Code_Key
+  Inner Join Plexus_Control_v_Plexus_User as D
+       On A.Plexus_User_No = D.Plexus_User_No     
+       
+  Where Format(B.Termination_Date, 'yyyyMM') =  @Month
+    AND A.Employee_Status = 'Inactive'
+    AND (C.Termination_Code = 'Released-Performance')
+    AND A.Pay_Type = 'Salary'
+  
+  ) as Q1
+  Group By Q1.TerminationCode ) as ReleasedPerformance
   
 ---- RETREIVE VALUES ----
---Select * From #Summary as A
+Select * From #Summary as A
 
 ---- Calculate Turnover Rate -----
-Select A.PayType, 
+Select A.EmployeeType, 
        Case When (IsNull(A.PreviousMonth, 0) +  IsNull(A.Hire, 0)) > 0 Then
          Cast((IsNull(A.Quit, 0) +  IsNull(A.Resign, 0)) as Decimal) / Cast((IsNull(A.PreviousMonth, 0) +  IsNull(A.Hire, 0)) as Decimal)
          Else 0 End as Rate
