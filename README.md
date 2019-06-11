@@ -34,4 +34,6 @@ Report_11: Display New Hires and Terminations information.
 
 Report_12: Display Termination Code Summary information.
 
-Report_12: Display Employee Turnover Rate.
+Report_13: Display Employee Turnover Rate.
+
+Report_14: Track Printer Toner and Drum Inventory
