@@ -38,4 +38,6 @@ Report_13: Display Employee Turnover Rate.
 
 Report_14: Track Printer Toner and Drum Inventory
 
-Report_14: Display Daily Production Job Overview
+Report_15: Display Daily Production Job Overview
+
+Report 16: Display 2019 Sales Forecast Graph
