@@ -37,3 +37,5 @@ Report_12: Display Termination Code Summary information.
 Report_13: Display Employee Turnover Rate.
 
 Report_14: Track Printer Toner and Drum Inventory
+
+Report_14: Display Daily Production Job Overview
